@@ -16,9 +16,9 @@ class Position
     BOTTOM_RIGHT  = :bottom_right
   ].freeze
 
-  attr_accessor :row, :col
+  attr_accessor :row, :col #attr_accessorメソッドを使うと、クラス外部からインスタンス変数へのアクセスが可能になる。
 
-  def initialize(row_or_cell_ref, col = nil)
+  def initialize(row_or_cell_ref, col = nil) #位置の呼び出し？
     if col
       # Position.new(1, 5) のような呼び出し
       @row = row_or_cell_ref
@@ -30,21 +30,22 @@ class Position
     end
   end
 
-  def invalid?
+  def invalid? #位置が無効(エラー)だった場合にtrueを返す
+    #binding.break
     row.nil? || col.nil?
   end
 
-  def out_of_board?
+  def out_of_board? #ボード外に位置している場合に true を返す
     !((0..7).cover?(row) && (0..7).cover?(col))
   end
 
-  def stone_color(board)
+  def stone_color(board) #引数としてボードを受け取り現在の位置にある石の色を返す。位置がボード外の場合は nil を返す。
     return nil if out_of_board?
 
     board[row][col]
   end
 
-  def to_cell_ref
+  def to_cell_ref #位置をセルの参照形式の(例"f7"")文字列に変換して返す。ボード外の場合は '盤面外' を返す。
     return '盤面外' if out_of_board?
 
     "#{COL[col]}#{ROW[row]}"

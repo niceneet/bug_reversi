@@ -1,11 +1,10 @@
 # frozen_string_literal: true
-
+require 'debug'
 require_relative './lib/reversi_methods'
 
 class Reversi
   include ReversiMethods
-
-  QUIT_COMMANDS = %w[quit exit q].freeze
+  QUIT_COMMANDS = %w[quit exit q].freeze #修了コマンド
 
   def initialize
     @board = build_initial_board
@@ -55,4 +54,4 @@ class Reversi
   end
 end
 
-Reversi.new.run if __FILE__ == $PROGRAM_NAME
+Reversi.new.run if __FILE__ == $PROGRAM_NAME #ファイル名と現在実行中のファイルの名前が一緒の場合、
