@@ -41,21 +41,18 @@ module ReversiMethods
   end
 
   def put_stone(board, cell_ref, stone_color, dry_run: false)
-    #binding.break
     pos = Position.new(cell_ref)
     raise '無効なポジションです' if pos.invalid?
     raise 'すでに石が置かれています' unless pos.stone_color(board) == BLANK_CELL
 
     # コピーした盤面にて石の配置を試みて、成功すれば反映する
-    #binding.break
     copied_board = Marshal.load(Marshal.dump(board))
     copied_board[pos.row][pos.col] = stone_color
 
     turn_succeed = false
     Position::DIRECTIONS.each do |direction|
       next_pos = pos.next_position(direction)
-      #binding.break
-      turn_succeed = true if turn(copied_board, next_pos, stone_color, direction) #ここが臭い
+      turn_succeed = true if turn(copied_board, next_pos, stone_color, direction)
     end
 
     copy_board(board, copied_board) if !dry_run && turn_succeed
@@ -64,7 +61,6 @@ module ReversiMethods
   end
 
   def turn(board, target_pos, attack_stone_color, direction)
-    binding.break
     return false if target_pos.out_of_board?
     return false if target_pos.stone_color(board) == attack_stone_color
     return false if target_pos.stone_color(board) == BLANK_CELL
@@ -79,12 +75,10 @@ module ReversiMethods
   end
 
   def finished?(board)
-    #binding.break
     !placeable?(board, WHITE_STONE) && !placeable?(board, BLACK_STONE)
   end
 
   def placeable?(board, attack_stone_color)
-    #binding.break
     board.each_with_index do |cols, row|
       cols.each_with_index do |cell, col|
         next unless cell == BLANK_CELL
